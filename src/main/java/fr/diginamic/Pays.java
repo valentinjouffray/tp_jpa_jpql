@@ -1,5 +1,8 @@
 package fr.diginamic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -8,6 +11,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +25,11 @@ public class Pays {
 	@Column(name="id")
 	private Long id;
 	private String nom;
+	
+	@ManyToMany
+	@JoinTable(name="film_pays", joinColumns = { @JoinColumn(name = "id_pays") }, 
+	        inverseJoinColumns = { @JoinColumn(name = "id_film") } )
+	private Set<Pays> films = new HashSet<>();
 	
 	public Pays() {
 
@@ -66,6 +77,17 @@ public class Pays {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
+	/** Getter pour films
+	 * @return the films
+	 */
+	public Set<Pays> getFilms() {
+		return films;
+	}
+	/** Setter pour films
+	 * @param films the films to set
+	 */
+	public void setFilms(Set<Pays> films) {
+		this.films = films;
+	}
 
 }

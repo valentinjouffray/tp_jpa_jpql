@@ -1,6 +1,8 @@
 package fr.diginamic;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +31,11 @@ public class Realisateur {
 	private String identite;
 	private String href;
 	private LocalDate anniversaire;
+	
+	@ManyToMany
+	@JoinTable(name="film_realisateur", joinColumns = { @JoinColumn(name = "id_realisateur") }, 
+    inverseJoinColumns = { @JoinColumn(name = "id_film") } )
+	private Set<Film> films = new HashSet<>();
 	
 	public Realisateur() {
 		
@@ -111,5 +121,19 @@ public class Realisateur {
 	 */
 	public void setAnniversaire(LocalDate anniversaire) {
 		this.anniversaire = anniversaire;
+	}
+
+	/** Getter pour films
+	 * @return the films
+	 */
+	public Set<Film> getFilms() {
+		return films;
+	}
+
+	/** Setter pour films
+	 * @param films the films to set
+	 */
+	public void setFilms(Set<Film> films) {
+		this.films = films;
 	}
 }

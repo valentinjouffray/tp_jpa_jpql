@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class ActeurRepositoryTest {
@@ -64,9 +65,8 @@ public class ActeurRepositoryTest {
 		TypedQuery<Acteur> query = em.createQuery("SELECT a FROM Acteur a", Acteur.class);
 		List<Acteur> acteurs = query.getResultList();
 
-		assertEquals(2, acteurs.size());
+		assertEquals(1, acteurs.size());
 		assertEquals("Margot Robbie", acteurs.get(0).getIdentite());
-		assertEquals("Margot Robbie", acteurs.get(1).getIdentite());
 	}
 
 	/**
@@ -76,12 +76,11 @@ public class ActeurRepositoryTest {
 	public void testExtraireActeursParFilmParuAnnee() {
 		TypedQuery<Acteur> query = em.createQuery("SELECT a FROM Acteur a", Acteur.class);
 		List<Acteur> acteurs = query.getResultList();
-		assertEquals(140, acteurs.size());
+		assertEquals(119, acteurs.size());
 	}
 
 	/**
 	 * Extraire la liste de tous les acteurs ayant joué dans un film français
-	 * Astuce: mot clé distinct
 	 */
 	@Test
 	public void testExtraireActeursParPays() {
@@ -92,7 +91,7 @@ public class ActeurRepositoryTest {
 
 	/**
 	 * Extraire la liste de tous les acteurs ayant joué dans un film français paru
-	 * en 2017 Astuce: mot clé distinct
+	 * en 2017
 	 */
 	@Test
 	public void testExtraireActeursParListePaysEtAnnee() {
@@ -103,13 +102,23 @@ public class ActeurRepositoryTest {
 
 	/**
 	 * Extraire la liste de tous les acteurs ayant joué dans un film réalisé par
-	 * Ridley Scott entre les années 2010 et 2020 Astuce: mot clé distinct
+	 * Ridley Scott entre les années 2010 et 2020
 	 */
 	@Test
 	public void testExtraireParRealisateurEntreAnnee() {
 		TypedQuery<Acteur> query = em.createQuery("SELECT a FROM Acteur a", Acteur.class);
 		List<Acteur> acteurs = query.getResultList();
 		assertEquals(27, acteurs.size());
+	}
+	
+	/**
+	 * Extraire la liste de tous les réalisateurs ayant réalisé un film dans lequel Brad Pitt a joué
+	 */
+	@Test
+	public void testExtraireRealisateursParActeur() {
+		TypedQuery<Realisateur> query = em.createQuery("SELECT r FROM Realisateur r", Realisateur.class);
+		List<Realisateur> acteurs = query.getResultList();
+		assertEquals(6, acteurs.size());
 	}
 
 	@BeforeEach
