@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
-@Table(name="REALISATEUR")
+@Table(name="realisateur")
 public class Realisateur {
 
 	@Id

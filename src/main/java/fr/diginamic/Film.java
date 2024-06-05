@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Entity
-@Table(name="FILM")
+@Table(name="film")
 public class Film {
 
 	@Id
@@ -39,17 +39,17 @@ public class Film {
 	private Set<Role> roles = new HashSet<>();
 	
 	@ManyToMany
-	@JoinTable(name="FILM_REAlISATEUR", joinColumns = { @JoinColumn(name = "id_film") }, 
+	@JoinTable(name="film_realisateur", joinColumns = { @JoinColumn(name = "id_film") }, 
     inverseJoinColumns = { @JoinColumn(name = "id_realisateur") } )
 	private Set<Realisateur> realisateurs = new HashSet<>();
 	
 	@ManyToMany
-	@JoinTable(name="FILM_GENRE", joinColumns = { @JoinColumn(name = "id_film") }, 
+	@JoinTable(name="film_genre", joinColumns = { @JoinColumn(name = "id_film") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "id_genre") } )
 	private Set<Genre> genres = new HashSet<>();
 	
 	@ManyToMany
-	@JoinTable(name="FILM_PAYS", joinColumns = { @JoinColumn(name = "id_film") }, 
+	@JoinTable(name="film_pays", joinColumns = { @JoinColumn(name = "id_film") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "id_pays") } )
 	private Set<Pays> pays = new HashSet<>();
 	
