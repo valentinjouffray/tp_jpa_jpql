@@ -2,21 +2,28 @@ package fr.diginamic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class ActeurRepositoryTest {
 
-	private EntityManagerFactory emf;
+	private static EntityManagerFactory emf;
 	private EntityManager em;
 
 	/**
@@ -120,16 +127,41 @@ public class ActeurRepositoryTest {
 		List<Realisateur> acteurs = query.getResultList();
 		assertEquals(6, acteurs.size());
 	}
-
+	
 	@BeforeEach
-	public void ouvertureRessources() {
-		emf = Persistence.createEntityManagerFactory("movie_db");
+	public void ouvertureEm() {
 		em = emf.createEntityManager();
 	}
-
+	
 	@AfterEach
-	public void fermetureRessources() {
+	public void fermetureEm() {
 		em.close();
+	}
+
+	@BeforeAll
+	public static void initDatabase() {
+		emf = Persistence.createEntityManagerFactory("movie_db");
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			
+			if (em.createQuery("FROM Acteur").getResultList().size()==0) {
+				em.getTransaction().begin();
+				Path home = Paths.get(ActeurRepositoryTest.class.getClassLoader().getResource("data.sql").toURI());
+				String[] queries = Files.readAllLines(home).stream().collect(Collectors.joining("\n")).split(";");
+				for (String query: queries) {
+					em.createNativeQuery(query).executeUpdate();
+				}
+				em.getTransaction().commit();
+			}
+		} catch (IOException | URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+		em.close();
+	}
+
+	@AfterAll
+	public static void fermetureRessources() {
 		emf.close();
 	}
 }

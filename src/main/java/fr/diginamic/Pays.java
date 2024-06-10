@@ -29,7 +29,7 @@ public class Pays {
 	@ManyToMany
 	@JoinTable(name="film_pays", joinColumns = { @JoinColumn(name = "id_pays") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "id_film") } )
-	private Set<Pays> films = new HashSet<>();
+	private Set<Film> films = new HashSet<>();
 	
 	public Pays() {
 
@@ -80,14 +80,15 @@ public class Pays {
 	/** Getter pour films
 	 * @return the films
 	 */
-	public Set<Pays> getFilms() {
+	public Set<Film> getFilms() {
 		return films;
 	}
 	/** Setter pour films
 	 * @param films the films to set
 	 */
-	public void setFilms(Set<Pays> films) {
+	public void setFilms(Set<Film> films) {
 		this.films = films;
 	}
+	
 
 }

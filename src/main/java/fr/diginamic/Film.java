@@ -29,11 +29,9 @@ public class Film {
 	@Column(name="id_imdb")
 	private String idImdb;
 	
-	@Column(name="imdb_href")
-	private String imdbHref;
+	private String href;
 	private String nom;
 	private Integer annee;
-	private char traite;
 	
 	@OneToMany(mappedBy="film")
 	private Set<Role> roles = new HashSet<>();
@@ -55,12 +53,6 @@ public class Film {
 	
 	public Film() {
 		
-	}
-	
-	public Film(String imdbHref, String nom) {
-		super();
-		this.imdbHref = imdbHref;
-		this.nom = nom;
 	}
 	
 	public Film(String nom, Integer annee) {
@@ -112,28 +104,9 @@ public class Film {
 		this.annee = annee;
 	}
 
-	/** Getter
-	 * @return the imdbHref
-	 */
-	public String getImdbHref() {
-		return imdbHref;
-	}
-
-	/** Setter
-	 * @param imdbHref the imdbHref to set
-	 */
-	public void setImdbHref(String imdbHref) {
-		this.imdbHref = imdbHref;
-	}
-
 	@Override
 	public String toString() {
 		return "id=" + idImdb + ", nom=" + nom + ", annee=" + annee;
-	}
-
-	public void addRole(Role role) {
-		System.out.println("Ajout role : "+role+" pour le film : "+this);
-		roles.add(role);
 	}
 
 	/** Getter
@@ -179,20 +152,6 @@ public class Film {
 	}
 
 	/** Getter
-	 * @return the traite
-	 */
-	public char getTraite() {
-		return traite;
-	}
-
-	/** Setter
-	 * @param traite the traite to set
-	 */
-	public void setTraite(char traite) {
-		this.traite = traite;
-	}
-
-	/** Getter
 	 * @return the genres
 	 */
 	public Set<Genre> getGenres() {
@@ -232,6 +191,20 @@ public class Film {
 	 */
 	public void setPays(Set<Pays> pays) {
 		this.pays = pays;
+	}
+
+	/** Getter pour href
+	 * @return the href
+	 */
+	public String getHref() {
+		return href;
+	}
+
+	/** Setter pour href
+	 * @param href the href to set
+	 */
+	public void setHref(String href) {
+		this.href = href;
 	}
 
 	
